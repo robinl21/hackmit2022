@@ -28,8 +28,13 @@
 
         getLocation();
 
-        function initMap(def_lat = 42, def_long = -71) {
+        function initMap(def_lat = -1000, def_long = -1000) {
             zoomNum = 15;
+            if (def_lat == -1000 && def_long == -1000){
+                def_lat = 0;
+                def_long = 0;
+                zoomNum = 1;
+            }
 
             loc = { lat: def_lat, lng: def_long};
             gmap = new google.maps.Map(document.getElementById("map"), {
