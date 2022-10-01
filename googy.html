@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en-US">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>give me my location please god</title>
+    
+</head>
+ 
+<body>
+ <h1>PLEASE</h1>
+ <p id = "demo"> cock and balls </p>
+ <script>
+  var x = document.getElementById("demo");
+  function getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+      x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+  }
+  
+  function showPosition(position) {
+    x.innerHTML = "Latitude: " + position.coords.latitude + 
+    "<br>Longitude: " + position.coords.longitude; 
+  }
+  </script>
+
+  <button onclick="getLocation()">PLEASEEEEEEEEE</button>
+</body>
+ 
+</html>
