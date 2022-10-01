@@ -21,32 +21,17 @@
         
         </p>
 
-    <script>
-        function initMap() {
-            const loc = { lat: 42, lng: -71};
-            var map = new google.maps.Map(document.getElementById("map"), {
-                center: loc,
-                zoom: 8,
-            });
-
-            const marker = new google.maps.Marker({
-                position: loc,
-                map: map,
-            });
-        }
-
-        window.initMap = initMap;
-    </script>
-
     <script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly"
     ></script>
     <script>
         var x = document.getElementById("demo");
+        var latitude, longitude;
 
         function getLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(showPosition, showError);
+                initMap(latitude, longitude);
             } 
             else {
                 x.innerHTML = "Geolocation is not supported by this browser.";
@@ -54,6 +39,8 @@
         }
   
         function showPosition(position) {
+            latitude = position.coords.latitude
+            longitude = position.coords.longitude
             x.innerHTML = "Here is your latitude, queen: " + position.coords.latitude + 
             "<br>Yass slay! Longitude: " + position.coords.longitude; 
         }
@@ -77,6 +64,21 @@
                     break;
             }
         }
+
+        function initMap(def_lat = 42, def_long = -71) {
+            const loc = { lat: def_lat, lng: def_long};
+            var map = new google.maps.Map(document.getElementById("map"), {
+                center: loc,
+                zoom: 15,
+            });
+
+            const marker = new google.maps.Marker({
+                position: loc,
+                map: map,
+            });
+        }
+
+        window.initMap = initMap;
     </script>
     
     <button onclick="getLocation()">PLEASEEEEEEEEE</button>
