@@ -20,7 +20,6 @@
     ></script>
     <script>
         var x = document.getElementById("demo");
-        var marky = document.getElementById("marky");
         var loc;
         var gmap;
         var marker = 0;
@@ -50,12 +49,12 @@
                     position: loc,
                     map: gmap,
                 });
-                marky.value = "HIDE YOURSELF";
+                document.getElementById("marky").innerText = "HIDE YOURSELF";
             }
             else {
                 marker.setMap(null);
                 marker = 0;
-                marky.value = "MARK YOURSELF";
+                document.getElementById("marky").innerText = "MARK YOURSELF";
             }
         }
 
