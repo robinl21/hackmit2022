@@ -1,60 +1,47 @@
-<!-- CSS Template from W3 Schools -->
-
+<!-- css template from https://freefrontend.com/css-login-forms/-->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Home Page</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
-<style>
-body, html {
-    height: 100%;
-    font-family: "Inconsolata", sans-serif;
-  }
-  
-  .bgimg {
-    background-position: center;
-    background-size: cover;
-    background-image: url("/w3images/coffeehouse.jpg");
-    min-height: 75%;
-  }
-  
-  .menu {
-    
-  }
-  </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href= "{{ url_for('static'), filename='css/login.css'}}">"
 </head>
-  <body>
-  
-  <!-- Links (sit on top) -->
-  <div class="w3-top">
-    <div class="w3-row w3-padding w3-black">
-      <div class="w3-col s3">
-        <a href="#" class="w3-button w3-block w3-black">HOME</a>
-      </div>
-      <div class="w3-col s3">
-        <a href="#about" class="w3-button w3-block w3-black">ABOUT</a>
-      </div>
-      <div class="w3-col s3">
-        <a href="#menu" class="w3-button w3-block w3-black">MENU</a>
-      </div>
-      <div class="w3-col s3">
-        <a href="#where" class="w3-button w3-block w3-black">WHERE</a>
-      </div>
-    </div>
-  </div>
-</body>
 <body>
-    <h1> STUDY SPACES</h1>
-    HOMEPAGE: HELLO WHATS YOUR name
-DO yoou have a code already?
-
-YES: ENTER CODE, NO: Provide code, generatelink
-
-
-    <h1> ENTER PAGE HERE</h1>
-    
+    <div class="container">
+        <div class="screen">
+            <div class="screen__content">
+                <form class="login">
+                    <div class="login__field">
+                        <i class="login__icon fas fa-user"></i>
+                        <input type="text" class="login__input" placeholder="User name / Email">
+                    </div>
+                    <div class="login__field">
+                        <i class="login__icon fas fa-lock"></i>
+                        <input type="password" class="login__input" placeholder="Password">
+                    </div>
+                    <button class="button login__submit">
+                        <span class="button__text">Log In Now</span>
+                        <i class="button__icon fas fa-chevron-right"></i>
+                    </button>				
+                </form>
+                <div class="social-login">
+                    <h3>log in via</h3>
+                    <div class="social-icons">
+                        <a href="#" class="social-login__icon fab fa-instagram"></a>
+                        <a href="#" class="social-login__icon fab fa-facebook"></a>
+                        <a href="#" class="social-login__icon fab fa-twitter"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="screen__background">
+                <span class="screen__background__shape screen__background__shape4"></span>
+                <span class="screen__background__shape screen__background__shape3"></span>		
+                <span class="screen__background__shape screen__background__shape2"></span>
+                <span class="screen__background__shape screen__background__shape1"></span>
+            </div>		
+        </div>
+    </div>
 </body>
 </html>
