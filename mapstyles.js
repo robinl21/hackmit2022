@@ -1,16 +1,17 @@
 var custom_map_style = [
   {
-    "stylers": [
-      {
-        "visibility": "on"
-      }
-    ]
-  },
-  {
     "elementType": "geometry",
     "stylers": [
       {
         "color": "#ebe3cd"
+      }
+    ]
+  },
+  {
+    "elementType": "labels.icon",
+    "stylers": [
+      {
+        "visibility": "off"
       }
     ]
   },
@@ -85,39 +86,7 @@ var custom_map_style = [
     ]
   },
   {
-    "featureType": "poi.attraction",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
     "featureType": "poi.business",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "poi.government",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "poi.medical",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "poi.park",
     "stylers": [
       {
         "visibility": "off"
@@ -135,6 +104,15 @@ var custom_map_style = [
   },
   {
     "featureType": "poi.park",
+    "elementType": "labels.text",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.park",
     "elementType": "labels.text.fill",
     "stylers": [
       {
@@ -143,26 +121,10 @@ var custom_map_style = [
     ]
   },
   {
-    "featureType": "poi.place_of_worship",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
     "featureType": "poi.school",
     "stylers": [
       {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "poi.sports_complex",
-    "stylers": [
-      {
-        "visibility": "off"
+        "visibility": "on"
       }
     ]
   },
@@ -284,5 +246,3 @@ var custom_map_style = [
     ]
   }
 ]
- 
-
