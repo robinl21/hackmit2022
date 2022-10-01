@@ -11,7 +11,7 @@
     <h1>PLEASE</h1>
     <div id="map" style="width:100%;height:400px;"> </div>
     <p id = "demo"> cock and balls </p>
-    <p>Ethiopians follow a 13-month calendar similar to that used in many Eastern Orthodox churches, trailing the western calendar by seven years and eight months. On the Gregorian calendar, Ethiopian New year falls on the 11th September.  
+    <p id = "eth">Ethiopians follow a 13-month calendar similar to that used in many Eastern Orthodox churches, trailing the western calendar by seven years and eight months. On the Gregorian calendar, Ethiopian New year falls on the 11th September.  
 
         According to the bible, God created the earth in the month of September, and legend has it that King Solomon gave the Ethiopian Queen of Sheba jewels during a state visit over 3,000 years ago.
         
@@ -20,17 +20,31 @@
         In honour of their former empress, the festival was named Enkutatash, meaning the ‘gift of the jewels’, a name it still bears to this day.
         
         </p>
-
-    <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly"
-    ></script>
+    
     <script>
         var x = document.getElementById("demo");
+        function initMap(def_lat = 42, def_long = -71) {
+            x.innerHTML = def_lat
+            const loc = { lat: def_lat, lng: def_long};
+            var map = new google.maps.Map(document.getElementById("map"), {
+                center: loc,
+                zoom: 15,
+            });
+
+            const marker = new google.maps.Marker({
+                position: loc,
+                map: map,
+            });
+        }
+
+        window.initMap = initMap;
         var latitude, longitude;
 
-        function getLocation() {
+        async function getLocation() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition, showError);
+                await navigator.geolocation.getCurrentPosition(showPosition, showError)
+                x.innerHTML = latitude + " " + longitude;
+                document.getElementById("eth").innerHTML = "fuck";
                 initMap(latitude, longitude);
             } 
             else {
@@ -38,14 +52,14 @@
             }
         }
   
-        function showPosition(position) {
+        async function showPosition(position) {
             latitude = position.coords.latitude
             longitude = position.coords.longitude
             x.innerHTML = "Here is your latitude, queen: " + position.coords.latitude + 
             "<br>Yass slay! Longitude: " + position.coords.longitude; 
         }
 
-        function showError(error) {
+        async function showError(error) {
             switch(error.code) {
                 case error.PERMISSION_DENIED:
                     x.innerHTML = "User denied the request for Geolocation. cock cock cock"
@@ -64,23 +78,11 @@
                     break;
             }
         }
-
-        function initMap(def_lat = 42, def_long = -71) {
-            const loc = { lat: def_lat, lng: def_long};
-            var map = new google.maps.Map(document.getElementById("map"), {
-                center: loc,
-                zoom: 15,
-            });
-
-            const marker = new google.maps.Marker({
-                position: loc,
-                map: map,
-            });
-        }
-
-        window.initMap = initMap;
     </script>
-    
+    <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly"
+    ></script>
+
     <button onclick="getLocation()">PLEASEEEEEEEEE</button>
 </body>
  
