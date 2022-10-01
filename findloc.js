@@ -1,8 +1,6 @@
 async function getLocation() {
     if (navigator.geolocation) {
         await navigator.geolocation.getCurrentPosition(showPosition, showError)
-        x.innerHTML = latitude + " " + longitude;
-        document.getElementById("eth").innerHTML = "fuck";
         initMap(latitude, longitude);
     } 
     else {
@@ -13,8 +11,8 @@ async function getLocation() {
 async function showPosition(position) {
     latitude = position.coords.latitude
     longitude = position.coords.longitude
-    x.innerHTML = "Here is your latitude, queen: " + position.coords.latitude + 
-    "<br>Yass slay! Longitude: " + position.coords.longitude; 
+    x.innerHTML = "Latitude: " + position.coords.latitude + 
+    "<br>Longitude: " + position.coords.longitude; 
 }
 
 async function showError(error) {
