@@ -15,20 +15,32 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/mapstyles.js')}}"></script>
     <script type="text/javascript" src = "{{ url_for('static', filename='js/findloc.js')}}"> </script>
 
-    <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly"
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWk_UdE_K2CPBB6CsIfTEl3frqnfm1Ue4&callback=initMap&v=weekly"
     ></script>
     <script>
         var x = document.getElementById("demo");
         var loc;
         var gmap;
-        var marker = 0;
+        var marker;
         var latitude, longitude;
+        var firstLoad = true;
 
-        getLocation();
+        async function loadCenter() {
+            if (firstLoad) {
+                firstLoad = false;
+            }
+            else {
+                marker = 0;
+                document.getElementById("marky").innerText = "MARK YOURSELF";
+            }
+
+            getLocation();
+        }
 
         function initMap(def_lat = -1000, def_long = -1000) {
-            zoomNum = 15;
+            x.innerText = "FALSE";
+            zoomNum = 16;
             if (def_lat == -1000 && def_long == -1000){
                 def_lat = 0;
                 def_long = 0;
@@ -42,13 +54,22 @@
                 styles: custom_map_style
             });
         }
+
+        getLocation();
+        initMap();
         
         function addMarker() {
+
+            const icon_image = {
+                url: 'https://web.mit.edu/graphicidentity/images/examples/tim-the-beaver-do-1.png',
+                scaledSize: new google.maps.Size(80, 80),
+            };
             
             if (marker == 0) {
                 marker = new google.maps.Marker({
                     position: loc,
                     map: gmap,
+                    icon : icon_image,
                 });
                 document.getElementById("marky").innerText = "HIDE YOURSELF";
             }
@@ -58,11 +79,9 @@
                 document.getElementById("marky").innerText = "MARK YOURSELF";
             }
         }
-
-        window.initMap = initMap;
     </script>
     
-    <button onclick="getLocation()">Center the Map</button>
+    <button onclick="loadCenter()">Center the Map</button>
     <button id = "marky" onclick="addMarker()"> MARK YOURSELF </button>
 </body>
  
