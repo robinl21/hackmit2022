@@ -13,69 +13,52 @@
     <div id="map" style="width:100%;height:400px;"> </div>
     <p id = "demo">Waiting for location...</p>
     <script src="/mapstyles.js"></script>
+    <script src = "/findloc.js"> </script>
 
     <script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly"
     ></script>
     <script>
         var x = document.getElementById("demo");
+        var marky = document.getElementById("marky");
+        var loc;
+        var gmap;
+        var marker = 0;
         var latitude, longitude;
 
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition, showError);
-                initMap(latitude, longitude);
-            } 
-            else {
-                x.innerHTML = "Geolocation is not supported by this browser.";
-            }
-        }
-  
-        function showPosition(position) {
-            latitude = position.coords.latitude
-            longitude = position.coords.longitude
-            x.innerHTML = "Latitude: " + position.coords.latitude + 
-            "<br>Longitude: " + position.coords.longitude; 
-        }
-
-        function showError(error) {
-            switch(error.code) {
-                case error.PERMISSION_DENIED:
-                    x.innerHTML = "User denied the request for Geolocation. cock cock cock"
-                    break;
-
-                case error.POSITION_UNAVAILABLE:
-                    x.innerHTML = "Location information is unavailable."
-                    break;
-
-                case error.TIMEOUT:
-                    x.innerHTML = "The request to get user location timed out."
-                    break;
-
-                case error.UNKNOWN_ERROR:
-                    x.innerHTML = "An unknown error occurred."
-                    break;
-            }
-        }
+        getLocation();
 
         function initMap(def_lat = 42, def_long = -71) {
-            const loc = { lat: def_lat, lng: def_long};
-            var map = new google.maps.Map(document.getElementById("map"), {
+            zoomNum = 15;
+
+            loc = { lat: def_lat, lng: def_long};
+            gmap = new google.maps.Map(document.getElementById("map"), {
                 center: loc,
-                zoom: 15,
+                zoom: zoomNum,
                 styles: custom_map_style
             });
-
-            const marker = new google.maps.Marker({
-                position: loc,
-                map: map,
-            });
+        }
+        
+        function addMarker() {
+            if (marker == 0) {
+                marker = new google.maps.Marker({
+                    position: loc,
+                    map: gmap,
+                });
+                marky.value = "HIDE YOURSELF";
+            }
+            else {
+                marker.setMap(null);
+                marker = 0;
+                marky.value = "MARK YOURSELF";
+            }
         }
 
         window.initMap = initMap;
     </script>
     
-    <button onclick="getLocation()">Add Me to the Map</button>
+    <button onclick="getLocation()">Center the Map</button>
+    <button id = "marky" onclick="addMarker()"> MARK YOURSELF </button>
 </body>
  
 </html>
