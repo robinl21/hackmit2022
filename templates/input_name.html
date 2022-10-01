@@ -15,19 +15,16 @@
         <div class="screen">
             <div class="screen__content">
                 <div>
-                    WELCOME TO STUDY SPACES. Do you have a session code? {{ error_message }}
+                    Your code is: {{ code }}. What do you want your name to be on the map?
                 </div>
-                <form class="login" action="#" method="post">
+                <form class="login" action="/study_spaces" method="post">
                     <div class="login__field">
                         <i class="login__icon fas fa-user"></i>
-                        <input type="text" name = "existingCode" class="login__input" placeholder="Input Code">
+                        <input type="text" class="login__input" placeholder="Name">
                     </div>
-                    <button class="button login__submit", name = "newSession">
-                        <span class="button__text">Start a new session code</span>
-                        <i class="button__icon fas fa-chevron-right"></i>
-                    </button>	
-                    <button class="button login__submit", name = "previousSession">
-                        <span class="button__text">Submit Code</span>
+                    <input type="hidden" value = "{{ code }}">
+                    <button class="button login__submit">
+                        <span class="button__text">Submit Name</span>
                         <i class="button__icon fas fa-chevron-right"></i>
                     </button>				
                 </form>
