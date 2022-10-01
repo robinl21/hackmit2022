@@ -8,6 +8,14 @@ var custom_map_style = [
     ]
   },
   {
+    "elementType": "labels.icon",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
     "elementType": "labels.text.fill",
     "stylers": [
       {
@@ -109,6 +117,14 @@ var custom_map_style = [
     "stylers": [
       {
         "color": "#447530"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.school",
+    "stylers": [
+      {
+        "visibility": "on"
       }
     ]
   },

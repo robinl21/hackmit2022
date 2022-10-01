@@ -18,7 +18,7 @@ async function showPosition(position) {
 async function showError(error) {
     switch(error.code) {
         case error.PERMISSION_DENIED:
-            x.innerHTML = "User denied the request for Geolocation. cock cock cock"
+            x.innerHTML = "User denied the request for Geolocation"
             break;
 
         case error.POSITION_UNAVAILABLE:
