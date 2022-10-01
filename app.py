@@ -33,11 +33,14 @@ def index():
 @app.route('/inputname/<code>', methods=["POST", "GET"]) #pass in code as parameter
 def inputname(code):
     #form submission with user code, asks for name
-    return render_template('input_name.html', code=code)
+    if request.method == "POST":
+        print(request.form)
+        return redirect(url_for("studyspace", code=code, name=request.form["userName"])) #redirects to study space
+    else:
+        return render_template('input_name.html', code=code)
 
-@app.route('/studyspace/<code>/<name>', methods=["POST", "GET"]) #pass in name/code
+@app.route('/studyspaces/<code>/<name>', methods=["POST", "GET"]) #pass in name/code
 def studyspace(code, name):
-    print(request.form)
-    return render_template('study_spaces.html', code, name)
+    return render_template('study_spaces.html', code=code, name=name)
 
 

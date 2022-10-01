@@ -17,12 +17,12 @@
                 <div>
                     Your code is: {{ code }}. What do you want your name to be on the map?
                 </div>
-                <form class="login" action="/study_spaces" method="post">
+                <form class="login" action="#" method="post">
                     <div class="login__field">
                         <i class="login__icon fas fa-user"></i>
-                        <input type="text" class="login__input" placeholder="Name">
+                        <input type="text" name = "userName" class="login__input" placeholder="Name">
                     </div>
-                    <input type="hidden" value = "{{ code }}">
+                    
                     <button class="button login__submit">
                         <span class="button__text">Submit Name</span>
                         <i class="button__icon fas fa-chevron-right"></i>
