@@ -3,6 +3,8 @@ import random
 import string
 
 app = Flask(__name__)
+
+
 # flask runs each function when at the site corresponding to route
 @app.route('/', methods=["POST", "GET"])
 def index():
@@ -41,6 +43,7 @@ def inputname(code):
 
 @app.route('/studyspaces/<code>/<name>', methods=["POST", "GET"]) #pass in name/code
 def studyspace(code, name):
+    #save code, name, location, into database
     return render_template('study_spaces.html', code=code, name=name)
 
 
