@@ -20,80 +20,53 @@
         In honour of their former empress, the festival was named Enkutatash, meaning the ‘gift of the jewels’, a name it still bears to this day.
         
         </p>
-    
+    <script src = "findloc.js"> </script>
     <script>
         var x = document.getElementById("demo");
+        var marky = document.getElementById("marky");
+        var loc;
+        var gmap;
+        var marker = 0;
+        var latitude, longitude;
+
+        getLocation();
+
         function initMap(def_lat = 42, def_long = -71) {
-            defaultMap = false;
             zoomNum = 15;
 
-            if (def_lat == 42 && def_long == -71) {
-                defaultMap = true;
-                zoomNum = 1;
-            }
+            if (def_lat == 42 && def_long == -71) zoomNum = 1;
             
             x.innerHTML = def_lat
-            const loc = { lat: def_lat, lng: def_long};
-            var map = new google.maps.Map(document.getElementById("map"), {
+            loc = { lat: def_lat, lng: def_long};
+            gmap = new google.maps.Map(document.getElementById("map"), {
                 center: loc,
                 zoom: zoomNum,
             });
-
-            if (!defaultMap) {
-                const marker = new google.maps.Marker({
+        }
+        
+        function addMarker() {
+            if (marker == 0) {
+                marker = new google.maps.Marker({
                     position: loc,
-                    map: map,
+                    map: gmap,
                 });
+                marky.value = "HIDE YOURSELF";
+            }
+            else {
+                marker.setMap(null);
+                marker = 0;
+                marky.value = "MARK YOURSELF";
             }
         }
 
         window.initMap = initMap;
-        var latitude, longitude;
-
-        async function getLocation() {
-            if (navigator.geolocation) {
-                await navigator.geolocation.getCurrentPosition(showPosition, showError)
-                x.innerHTML = latitude + " " + longitude;
-                document.getElementById("eth").innerHTML = "fuck";
-                initMap(latitude, longitude);
-            } 
-            else {
-                x.innerHTML = "Geolocation is not supported by this browser.";
-            }
-        }
-  
-        async function showPosition(position) {
-            latitude = position.coords.latitude
-            longitude = position.coords.longitude
-            x.innerHTML = "Here is your latitude, queen: " + position.coords.latitude + 
-            "<br>Yass slay! Longitude: " + position.coords.longitude; 
-        }
-
-        async function showError(error) {
-            switch(error.code) {
-                case error.PERMISSION_DENIED:
-                    x.innerHTML = "User denied the request for Geolocation. cock cock cock"
-                    break;
-
-                case error.POSITION_UNAVAILABLE:
-                    x.innerHTML = "Location information is unavailable."
-                    break;
-
-                case error.TIMEOUT:
-                    x.innerHTML = "The request to get user location timed out."
-                    break;
-
-                case error.UNKNOWN_ERROR:
-                    x.innerHTML = "An unknown error occurred."
-                    break;
-            }
-        }
     </script>
     <script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly"
     ></script>
 
     <button onclick="getLocation()">PLEASEEEEEEEEE</button>
+    <button id = "marky" onclick="addMarker()"> MARK YOURSELF </button>
 </body>
  
 </html>
