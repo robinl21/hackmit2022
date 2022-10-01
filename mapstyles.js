@@ -124,7 +124,7 @@ var custom_map_style = [
     "featureType": "poi.school",
     "stylers": [
       {
-        "visibility": "on"
+        "visibility": "off"
       }
     ]
   },
