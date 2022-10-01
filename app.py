@@ -1,8 +1,24 @@
 from flask import Flask, redirect, url_for, render_template, request
 import random
 import string
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
+import sqlite3
 
 app = Flask(__name__)
+
+conn = sqlite3.connect(':memory:')
+
+c = conn.cursor()
+c.execute("""CREATE TABLE friends (
+            code text,
+            name text,
+            location blob,
+            markers interger
+            )""")
+
+conn.commit()
+conn.close()
 
 
 # flask runs each function when at the site corresponding to route
