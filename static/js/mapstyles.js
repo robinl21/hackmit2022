@@ -1,4 +1,4 @@
-var custom_map_style = [
+var custom_map_style = 
   [
     {
       "elementType": "geometry",
@@ -233,4 +233,3 @@ var custom_map_style = [
       ]
     }
   ]
-]
