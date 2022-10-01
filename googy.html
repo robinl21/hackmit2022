@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en-US">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>StudySpaces</title>
+    <link rel="stylesheet" href="googy.css">
+</head>
+ 
+<body>
+    <h1>Study Space: $tud 5 Bitchezzz</h1>
+    <div id="map" style="width:100%;height:400px;"> </div>
+    <p id = "demo">Waiting for location...</p>
+    <script src="/mapstyles.js"></script>
+    <script src = "/findloc.js"> </script>
+
+    <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly"
+    ></script>
+    <script>
+        var x = document.getElementById("demo");
+        var loc;
+        var gmap;
+        var marker;
+        var latitude, longitude;
+        var firstLoad = true;
+
+        async function loadCenter() {
+            if (firstLoad) {
+                firstLoad = false;
+            }
+            else {
+                marker = 0;
+                document.getElementById("marky").innerText = "MARK YOURSELF";
+            }
+
+            getLocation();
+        }
+
+        function initMap(def_lat = -1000, def_long = -1000) {
+            x.innerText = "FALSE";
+            zoomNum = 16;
+            if (def_lat == -1000 && def_long == -1000){
+                def_lat = 0;
+                def_long = 0;
+                zoomNum = 1;
+            }
+
+            loc = { lat: def_lat, lng: def_long};
+            gmap = new google.maps.Map(document.getElementById("map"), {
+                center: loc,
+                zoom: zoomNum,
+                styles: custom_map_style
+            });
+        }
+
+        getLocation();
+        initMap();
+        
+        function addMarker() {
+
+            const icon_image = {
+                url: 'https://web.mit.edu/graphicidentity/images/examples/tim-the-beaver-do-1.png',
+                scaledSize: new google.maps.Size(80, 80),
+            };
+            
+            if (marker == 0) {
+                marker = new google.maps.Marker({
+                    position: loc,
+                    map: gmap,
+                    icon : icon_image,
+                });
+                document.getElementById("marky").innerText = "HIDE YOURSELF";
+            }
+            else {
+                marker.setMap(null);
+                marker = 0;
+                document.getElementById("marky").innerText = "MARK YOURSELF";
+            }
+        }
+    </script>
+    
+    <button onclick="loadCenter()">Center the Map</button>
+    <button id = "marky" onclick="addMarker()"> MARK YOURSELF </button>
+</body>
+ 
+</html>
