@@ -1,4 +1,4 @@
-var custom_map_style = [
+[
   {
     "elementType": "geometry",
     "stylers": [
