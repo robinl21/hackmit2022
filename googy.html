@@ -24,17 +24,27 @@
     <script>
         var x = document.getElementById("demo");
         function initMap(def_lat = 42, def_long = -71) {
+            defaultMap = false;
+            zoomNum = 15;
+
+            if (def_lat == 42 && def_long == -71) {
+                defaultMap = true;
+                zoomNum = 1;
+            }
+            
             x.innerHTML = def_lat
             const loc = { lat: def_lat, lng: def_long};
             var map = new google.maps.Map(document.getElementById("map"), {
                 center: loc,
-                zoom: 15,
+                zoom: zoomNum,
             });
 
-            const marker = new google.maps.Marker({
-                position: loc,
-                map: map,
-            });
+            if (!defaultMap) {
+                const marker = new google.maps.Marker({
+                    position: loc,
+                    map: map,
+                });
+            }
         }
 
         window.initMap = initMap;
