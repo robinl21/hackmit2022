@@ -4,22 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>give me my location please god</title>
+    <title>StudySpaces</title>
 </head>
  
 <body>
-    <h1>PLEASE</h1>
+    <h1>Study Space: $tud 5 Bitchezzz</h1>
     <div id="map" style="width:100%;height:400px;"> </div>
-    <p id = "demo"> cock and balls </p>
-    <p>Ethiopians follow a 13-month calendar similar to that used in many Eastern Orthodox churches, trailing the western calendar by seven years and eight months. On the Gregorian calendar, Ethiopian New year falls on the 11th September.  
-
-        According to the bible, God created the earth in the month of September, and legend has it that King Solomon gave the Ethiopian Queen of Sheba jewels during a state visit over 3,000 years ago.
-        
-        Upon her return, at the end of the dry summer season, yellow flowers began to bloom in the foothills surrounding Addis Ababa, signifying the end of a long drought and the start of new life within the country.
-        
-        In honour of their former empress, the festival was named Enkutatash, meaning the ‘gift of the jewels’, a name it still bears to this day.
-        
-        </p>
+    <p id = "demo">Waiting for location...</p>
     <script src="/mapstyles.js"></script>
 
     <script
@@ -42,8 +33,8 @@
         function showPosition(position) {
             latitude = position.coords.latitude
             longitude = position.coords.longitude
-            x.innerHTML = "Here is your latitude, queen: " + position.coords.latitude + 
-            "<br>Yass slay! Longitude: " + position.coords.longitude; 
+            x.innerHTML = "Latitude: " + position.coords.latitude + 
+            "<br>Longitude: " + position.coords.longitude; 
         }
 
         function showError(error) {
@@ -83,7 +74,7 @@
         window.initMap = initMap;
     </script>
     
-    <button onclick="getLocation()">PLEASEEEEEEEEE</button>
+    <button onclick="getLocation()">Add Me to the Map</button>
 </body>
  
 </html>
