@@ -1,14 +1,15 @@
-from click import pass_context
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    pass
+    return render_template('index.html')
 
-#holds index htlm, base page
+#holds index html, base page
 
 
 # this is all the pages stuff
+
+@app.route('/map')
 
