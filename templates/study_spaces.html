@@ -37,7 +37,11 @@
         var longitude = -1000;
         var loc = { lat: -1000, lng: -1000};
         var firstLoad = true;
-
+        var initTime;
+        var status = "nothing";
+        var nickname = "Grace Li";
+        var locName = "new vassar";
+        var hasClicked = false;
 
         function initMap(def_lat = -1000, def_long = -1000) {
             zoomNum = 18;
@@ -76,10 +80,42 @@
                 marker = new google.maps.Marker({
                     position: loc,
                     map: gmap,
-                    title: "myMarker",
                     optimized: false,
                     icon: icon_image,
                 });
+
+                initTime = new Date();
+
+                const contentString =
+                    '<div id="content">' +
+                    "</div>" +
+                    '<h1 id="firstHeading" class="firstHeading"> {{name}} </h1>' +
+                    '<div id="bodyContent">' +
+                    "<p> aka " + nickname + " </p>" +
+                    "<p> studying at " + locName + " </p>" +
+                    '<p> working on ' + status + ' </p>' +
+                    "<p> " + "studying since " + initTime.toLocaleTimeString('en-US') + " </p>" +
+                    "</div>";
+                var infowindow =  new google.maps.InfoWindow({
+                    content: contentString,
+                    map: map,
+                });
+
+                marker.addListener('mouseover', function() {
+                    infowindow.open(map, this);
+                });
+
+                marker.addListener('click', function() {
+                    if (hasClicked) infowindow.close();
+                    else infowindow.open(map, this);
+                    hasClicked = !hasClicked
+                });
+
+                marker.addListener('mouseout', function() {
+                    if (hasClicked) return;
+                    infowindow.close();
+                });
+
                 document.getElementById("marky").innerText = "HIDE YOURSELF";
                 var data = String('name=' + name + '&code=' + code_input + '&latitude=' + latitude + '&longitude=' + longitude)
 
@@ -91,6 +127,11 @@
                 marker = 0;
                 document.getElementById("marky").innerText = "FIND LOCATION AND MARK YOURSELF";
             }
+        }
+
+        function isInfoWindowOpen(infoWindow){
+            var map = infoWindow.getMap();
+            return (map !== null && typeof map !== "undefined");
         }
 
         function getLocation() {
