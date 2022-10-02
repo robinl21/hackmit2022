@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
+@import url('https://fonts.googleapis.com/css?family=BioRhyme:400,700');
 
 * {
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;	
-	font-family: Raleway, sans-serif;
+	font-family: 'BioRhyme';
 }
 
 body {
@@ -151,7 +151,7 @@ body {
 }
 
 .social-login {	
-	position: absolute;
+	position: center;
 	height: 140px;
 	width: 160px;
 	text-align: center;
@@ -167,7 +167,7 @@ body {
 }
 
 .social-login__icon {
-	padding: 20px 10px;
+	padding: 10px 10px;
 	color: #fff;
 	text-decoration: none;	
 	text-shadow: 0px 0px 8px #7875B5;
