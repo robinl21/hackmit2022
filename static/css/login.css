@@ -8,7 +8,8 @@
 }
 
 body {
-	background: #ebe2cd;		
+	background: #ebe2cd;
+	background-image: url("https://i.postimg.cc/mkJyLwF6/Image-10-2-22-at-9-15-AM.jpg");
 }
 
 .container {
@@ -16,6 +17,7 @@ body {
 	align-items: center;
 	justify-content: center;
 	min-height: 100vh;
+
 }
 
 .screen {		
