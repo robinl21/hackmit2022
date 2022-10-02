@@ -76,9 +76,9 @@
                 
                 
                 document.getElementById("marky").innerText = "HIDE YOURSELF";
-                var data = String('name=' + name + 'code=' + code_input + 'latitude=' + latitude + 'longitude=' + longitude)
+                var data = String('name=' + name + '&code=' + code_input + '&latitude=' + latitude + '&longitude=' + longitude)
 
-                $ajaxutils.sendPostRequest("/", data)
+                $ajaxutils.sendPostRequest("/enterinfo", data)
             }
             else { // marker holds Marker object
                 //remove information from database

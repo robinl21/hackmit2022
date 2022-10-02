@@ -6,54 +6,25 @@ import sqlite3
 
 app = Flask(__name__)
 
-def create_connection(db_file):
-    """ create a database connection to the SQLite database
-        specified by db_file
-    :param db_file: database file
-    :return: Connection object or None
-    """
-    conn = None
-    try:
-        conn = sqlite3.connect(db_file)
-        return conn
-    except Error as e:
-        print(e)
 
-    return conn
+conn = None
 
-def create_table(conn, create_table_sql):
-    """ create a table from the create_table_sql statement
-    :param conn: Connection object
-    :param create_table_sql: a CREATE TABLE statement
-    :return:
-    """
-    try:
-        c = conn.cursor()
-        c.execute(create_table_sql)
-    except Error as e:
-        print(e)
+try:
+    conn = sqlite3.connect('friends.db', check_same_thread=False)
+except Error as e:
+    print(e)
+
 
 create_friends_table = """CREATE TABLE IF NOT EXISTS friends (
                                     code text NOT NULL,
                                     name text NOT NULL,
                                     longitude real,
-                                    latitute real,
+                                    latitude real,
                                     avatar blob
                                 );"""
-
-# make this True if we want to make database
-if False:
-    # create a database connection
-    conn = create_connection('friends.db')
-
-    # create tables
-    if conn is not None:
-        # create projects table
-        create_table(conn, create_friends_table)
-        c.commit()
-
-    else:
-        print("Error! cannot create the database connection.")
+c = conn.cursor()
+c.execute(create_friends_table)
+conn.commit()
 
 # flask runs each function when at the site corresponding to route
 @app.route('/', methods=["POST", "GET"])
@@ -97,9 +68,19 @@ def studyspace(code, name):
     return render_template('study_spaces.html', code=code, name=name)
 
 # Given a student's information, store it in the database
-def enter_info(code, name, longitude, latitude, avatar):
-    c.execute("INSERT INTO friends VALUES (code, name, longitude, latitude, avatar)")
-    return code
+@app.route('/enterinfo', methods=["POST", "GET"])
+def enter_info():
+    if request.method == "POST":
+        print(request.form)
+        params = [request.form["code"], request.form["name"], request.form["latitude"], request.form["longitude"]]
+        sql_command = ', '.join(params)
+        c.execute("PRAGMA table_info(friends)")
+        items = c.fetchall()
+        print(items)
+        query1 = "INSERT INTO friends (code, name, longitude, latitude) VALUES(" + sql_command + ")"
+        c.execute(query1)
+        conn.commit()
+        
 
 # Given a code, return all items in the database with the same code value
 def get_code_friends(input_code):
