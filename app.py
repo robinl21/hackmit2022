@@ -6,19 +6,40 @@ import sqlite3
 
 app = Flask(__name__)
 
-conn = sqlite3.connect('friends.db')
+def create_connection(db_file):
+    """ create a database connection to the SQLite database
+        specified by db_file
+    :param db_file: database file
+    :return: Connection object or None
+    """
+    conn = None
+    try:
+        conn = sqlite3.connect(db_file)
+        return conn
+    except Error as e:
+        print(e)
 
-c = conn.cursor()
-c.execute("""CREATE TABLE friends (
-            code text,
-            name text,
-            longitute real,
-            latitute real,
-            markers integer
-            )""")
+    return conn
 
-conn.commit()
+def create_table(conn, create_table_sql):
+    """ create a table from the create_table_sql statement
+    :param conn: Connection object
+    :param create_table_sql: a CREATE TABLE statement
+    :return:
+    """
+    try:
+        c = conn.cursor()
+        c.execute(create_table_sql)
+    except Error as e:
+        print(e)
 
+create_friends_table = """CREATE TABLE IF NOT EXISTS tasks (
+                                    code text NOT NULL,
+                                    name text NOT NULL,
+                                    longitude real,
+                                    latitute real,
+                                    marker integer
+                                );"""
 
 # flask runs each function when at the site corresponding to route
 @app.route('/', methods=["POST", "GET"])
