@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>StudySpaces</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css')}}">
+    <style> img[src="https://media.discordapp.net/attachments/711328926777081916/1025904567751286835/IMG_3961.png"]{
+        border-radius: 50%;
+        border: 10% solid greenyellow !important;
+    }
+    </style>
 </head>
  
 <body>
@@ -15,6 +20,7 @@
     <div id="map" style="width:100%;height:600px;"> </div>
     <p id = "demo">Waiting for location...</p>
     <p id = "temp"> Debugging... </p>
+
     <script type="text/javascript" src="{{ url_for('static', filename='js/mapstyles.js')}}"></script>
     <script async = "false" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWk_UdE_K2CPBB6CsIfTEl3frqnfm1Ue4&callback=initMap"></script>
 
@@ -48,8 +54,8 @@
                 zoomNum = 1;
                 gmap = new google.maps.Map(document.getElementById("map"), {
                 center: {lat: def_lat, lng: def_long},
-                zoom: zoomNum,
-                styles: custom_map_style });
+                    zoom: zoomNum,
+                    styles: custom_map_style });
             }
             else {
                 gmap.setZoom(zoomNum);
@@ -62,7 +68,7 @@
                 temp.innerText = "no marker"
                 return;
             }
-
+        
             const icon_image = {
                 url: 'https://media.discordapp.net/attachments/711328926777081916/1025904567751286835/IMG_3961.png',
                 scaledSize: new google.maps.Size(50, 50),
@@ -73,8 +79,17 @@
                 marker = new google.maps.Marker({
                     position: loc,
                     map: gmap,
-                    icon : icon_image,
+                    title: "myMarker",
+                    optimized: false,
+                    icon: icon_image,
                 });
+
+                var myoverlay = new google.maps.OverlayView();
+                myoverlay.draw = function () {
+                    this.getPanes().markerLayer.id = 'myMarker';
+                };
+                myoverlay.setMap(gmap);
+
                 document.getElementById("marky").innerText = "HIDE YOURSELF";
             }
             else {
