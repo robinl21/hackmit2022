@@ -15,13 +15,14 @@
         }
     }
 
-    ajaxutils.sendGetRequest = function (requestUrl, responseHandler, responseType) {
+    ajaxutils.sendGetRequest = function (requestUrl, responseHandler, params) {
         var request = getRequestObject();
         request.onload = function () {
             handleResponse(request, responseHandler);
         }
+        print(params)
+        requestUrl += requestUrl + "?" + params //params of form variable1=value2
         request.open("GET", requestUrl, true);
-        request.responseType = responseType;
         request.send(null); 
     }
 
