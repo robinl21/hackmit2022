@@ -16,7 +16,7 @@
     <p id = "demo">Waiting for location...</p>
     <p id = "temp"> Debugging... </p>
     <script type="text/javascript" src="{{ url_for('static', filename='js/mapstyles.js')}}"></script>
-    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWk_UdE_K2CPBB6CsIfTEl3frqnfm1Ue4&callback=initMap&v=weekly"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWk_UdE_K2CPBB6CsIfTEl3frqnfm1Ue4&callback=initMap"></script>
 
     <script>
         var x = document.getElementById("demo");
@@ -27,7 +27,7 @@
         var latitude, longitude;
         var firstLoad = true;
 
-        async function loadCenter() {
+        function loadCenter() {
             if (firstLoad) {
                 firstLoad = false;
             }
@@ -77,9 +77,9 @@
             }
         }
 
-        async function getLocation() {
+        function getLocation() {
             if (navigator.geolocation) {
-                await navigator.geolocation.getCurrentPosition(showPosition, showError)
+                navigator.geolocation.getCurrentPosition(showPosition, showError)
                 initMap(latitude, longitude);
             } 
             else {
@@ -87,14 +87,14 @@
             }
         }
 
-        async function showPosition(position) {
+        function showPosition(position) {
             latitude = position.coords.latitude
             longitude = position.coords.longitude
             x.innerHTML = "Latitude: " + position.coords.latitude + 
             "<br>Longitude: " + position.coords.longitude; 
         }
 
-        async function showError(error) {
+        function showError(error) {
             switch(error.code) {
                 case error.PERMISSION_DENIED:
                     x.innerHTML = "User denied the request for Geolocation"
