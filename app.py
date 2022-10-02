@@ -7,7 +7,24 @@ import sqlite3
 app = Flask(__name__)
 
 
+conn = None
 
+try:
+    conn = sqlite3.connect('friends.db', check_same_thread=False)
+except Error as e:
+    print(e)
+
+
+create_friends_table = """CREATE TABLE IF NOT EXISTS friends (
+                                    code text NOT NULL,
+                                    name text NOT NULL,
+                                    longitude real,
+                                    latitude real,
+                                    avatar blob
+                                );"""
+c = conn.cursor()
+c.execute(create_friends_table)
+conn.commit()
 
 # flask runs each function when at the site corresponding to route
 @app.route('/', methods=["POST", "GET"])
@@ -50,4 +67,23 @@ def studyspace(code, name):
     #save code, name, location, into database
     return render_template('study_spaces.html', code=code, name=name)
 
+# Given a student's information, store it in the database
+@app.route('/enterinfo', methods=["POST", "GET"])
+def enter_info():
+    if request.method == "POST":
+        print(request.form)
+        params = [request.form["code"], request.form["name"], request.form["latitude"], request.form["longitude"]]
+        sql_command = ', '.join(params)
+        c.execute("PRAGMA table_info(friends)")
+        items = c.fetchall()
+        print(items)
+        query1 = "INSERT INTO friends (code, name, longitude, latitude) VALUES(" + sql_command + ")"
+        c.execute(query1)
+        conn.commit()
+        
 
+# Given a code, return all items in the database with the same code value
+def get_code_friends(input_code):
+    c.execute("SELECT * FROM friends WHERE code = input_code")
+    items = c.fetchall()
+    return items

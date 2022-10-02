@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>StudySpaces</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css')}}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/ajax.js')}}"></script>
     <style> img[src="https://media.discordapp.net/attachments/711328926777081916/1025904567751286835/IMG_3961.png"]{
         border-radius: 50%;
         border: 10% solid greenyellow !important;
@@ -20,11 +21,14 @@
     <div id="map" style="width:100%;height:600px;"> </div>
     <p id = "demo">Waiting for location...</p>
     <p id = "temp"> Debugging... </p>
-
+    <div id="name_input" type="hidden">{{name}}</div>
+    <div id="code_input" type="hidden">{{code}}</div>
     <script type="text/javascript" src="{{ url_for('static', filename='js/mapstyles.js')}}"></script>
     <script async = "false" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWk_UdE_K2CPBB6CsIfTEl3frqnfm1Ue4&callback=initMap"></script>
 
     <script>
+        var name = document.getElementById("name_input").innerText;
+        var code_input = document.getElementById("code_input").innerText;
         var x = document.getElementById("demo");
         var temp = document.getElementById("temp");
         var gmap;
@@ -34,17 +38,6 @@
         var loc = { lat: -1000, lng: -1000};
         var firstLoad = true;
 
-        function loadCenter() {
-            if (firstLoad) {
-                firstLoad = false;
-            }
-            else {
-                marker = 0;
-                document.getElementById("marky").innerText = "MARK YOURSELF";
-            }
-
-            getLocation();
-        }
 
         function initMap(def_lat = -1000, def_long = -1000) {
             zoomNum = 18;
@@ -74,8 +67,12 @@
                 scaledSize: new google.maps.Size(50, 50),
             };
             
-            if (marker == 0) {
+        
+            if (marker == 0) { // no marker
+                // update location, add marker add information to database,
                 temp.innerText = "marked";
+                getLocation(); 
+
                 marker = new google.maps.Marker({
                     position: loc,
                     map: gmap,
@@ -83,19 +80,16 @@
                     optimized: false,
                     icon: icon_image,
                 });
-
-                var myoverlay = new google.maps.OverlayView();
-                myoverlay.draw = function () {
-                    this.getPanes().markerLayer.id = 'myMarker';
-                };
-                myoverlay.setMap(gmap);
-
                 document.getElementById("marky").innerText = "HIDE YOURSELF";
+                var data = String('name=' + name + '&code=' + code_input + '&latitude=' + latitude + '&longitude=' + longitude)
+
+                $ajaxutils.sendPostRequest("/enterinfo", data)
             }
-            else {
+            else { // marker holds Marker object
+                //remove information from database
                 marker.setMap(null);
                 marker = 0;
-                document.getElementById("marky").innerText = "MARK YOURSELF";
+                document.getElementById("marky").innerText = "FIND LOCATION AND MARK YOURSELF";
             }
         }
 
@@ -138,11 +132,14 @@
             }
         }
 
-        getLocation();
     </script>
     
-    <button onclick="loadCenter()">Center the Map</button>
+    <button onclick="getLocation()">RECENTER</button>
     <button id = "marky" onclick="addMarker()"> MARK YOURSELF </button>
+
+    <script>
+        getLocation();
+    </script>
 </body>
  
 </html>
