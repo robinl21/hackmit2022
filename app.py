@@ -6,7 +6,6 @@ import sqlite3
 
 app = Flask(__name__)
 
-<<<<<<< HEAD
 def create_connection(db_file):
     """ create a database connection to the SQLite database
         specified by db_file
@@ -33,11 +32,8 @@ def create_table(conn, create_table_sql):
         c.execute(create_table_sql)
     except Error as e:
         print(e)
-=======
 
->>>>>>> 864b368f6e1e4af79bb349fb58893719c31a58cb
-
-create_friends_table = """CREATE TABLE IF NOT EXISTS tasks (
+create_friends_table = """CREATE TABLE IF NOT EXISTS friends (
                                     code text NOT NULL,
                                     name text NOT NULL,
                                     longitude real,
@@ -98,6 +94,5 @@ def inputname(code):
 @app.route('/studyspaces/<code>/<name>', methods=["POST", "GET"]) #pass in name/code
 def studyspace(code, name):
     #save code, name, location, into database
+    c.execute("INSERT INTO friends VALUES (code, name, 0, 0, 0)")
     return render_template('study_spaces.html', code=code, name=name)
-
-
