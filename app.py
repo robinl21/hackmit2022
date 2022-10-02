@@ -38,7 +38,7 @@ create_friends_table = """CREATE TABLE IF NOT EXISTS friends (
                                     name text NOT NULL,
                                     longitude real,
                                     latitute real,
-                                    marker integer
+                                    avatar blob
                                 );"""
 
 # make this True if we want to make database
@@ -94,11 +94,15 @@ def inputname(code):
 @app.route('/studyspaces/<code>/<name>', methods=["POST", "GET"]) #pass in name/code
 def studyspace(code, name):
     #save code, name, location, into database
-
     return render_template('study_spaces.html', code=code, name=name)
 
+# Given a student's information, store it in the database
+def enter_info(code, name, longitude, latitude, avatar):
+    c.execute("INSERT INTO friends VALUES (code, name, longitude, latitude, avatar)")
+    return code
 
-@app.route('/process', methods=['POST'])
-def process_info():
-    if request.method == 'POST':
-        print(request.form)
+# Given a code, return all items in the database with the same code value
+def get_code_friends(input_code):
+    c.execute("SELECT * FROM friends WHERE code = input_code")
+    items = c.fetchall()
+    return items
