@@ -51,6 +51,10 @@
             }
         }
         
+        function retrieveAllPeople() {
+            var param = "code=" + code_input
+            $ajaxutils.sendGetRequest("/getcodefriends", retrieveFriends, param)
+        }
         function addMarker() {
             if (latitude == -1000 && longitude == -1000) {
                 temp.innerText = "no marker"
@@ -89,6 +93,7 @@
         }
 
         function getLocation() {
+            retrieveAllPeople()
 
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(showPosition, showError)
@@ -133,7 +138,7 @@
     
     <button onclick="getLocation()">RECENTER</button>
     <button id = "marky" onclick="addMarker()"> MARK YOURSELF </button>
-
+    <div id="friends"></div>
     <script>
         getLocation();
     </script>

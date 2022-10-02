@@ -71,20 +71,29 @@ def studyspace(code, name):
 @app.route('/enterinfo', methods=["POST", "GET"])
 def enter_info():
     if request.method == "POST":
-        print(request.form)
+        
         params = [request.form["code"], request.form["name"], request.form["latitude"], request.form["longitude"]]
-        sql_command = ', \''.join(params)
+        for i in range(len(params)):
+            params[i] = '\'' + params[i] + '\''
 
+        sql_command = ', '.join(params) + ", \'SLAY\'"
         c.execute("PRAGMA table_info(friends)")
         items = c.fetchall()
-        print(items)
+        for item in items:
+            print(item)
+        print("HI")
         query1 = "INSERT INTO friends (code, name, longitude, latitude, avatar) VALUES(" + sql_command + ")"
         c.execute(query1)
         conn.commit()
+
+        print(c.fetchall())
+        return "HI"
         
 
 # Given a code, return all items in the database with the same code value
-def get_code_friends(input_code):
-    c.execute("SELECT * FROM friends WHERE code = input_code")
-    items = c.fetchall()
-    return items
+@app.route('/getcodefriends', methods=["POST", "GET"])
+def get_code_friends():
+    if request.method == "GET":
+        print(request.form["code"])
+
+    return "HI"
