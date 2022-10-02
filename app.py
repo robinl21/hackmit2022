@@ -1,8 +1,25 @@
 from flask import Flask, redirect, url_for, render_template, request
 import random
 import string
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
+import sqlite3
 
 app = Flask(__name__)
+
+conn = sqlite3.connect(':memory:')
+
+c = conn.cursor()
+c.execute("""CREATE TABLE friends (
+            code text,
+            name text,
+            longitute real,
+            latitute real,
+            markers interger
+            )""")
+
+conn.commit()
+conn.close()
 
 
 # flask runs each function when at the site corresponding to route
@@ -44,6 +61,7 @@ def inputname(code):
 @app.route('/studyspaces/<code>/<name>', methods=["POST", "GET"]) #pass in name/code
 def studyspace(code, name):
     #save code, name, location, into database
+    c.execute("INSERT INTO friends VALUES (code, name, 0, 0, 0)")
     return render_template('study_spaces.html', code=code, name=name)
 
 
