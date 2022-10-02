@@ -41,6 +41,20 @@ create_friends_table = """CREATE TABLE IF NOT EXISTS tasks (
                                     marker integer
                                 );"""
 
+# make this True if we want to make database
+if False:
+    # create a database connection
+    conn = create_connection('friends.db')
+
+    # create tables
+    if conn is not None:
+        # create projects table
+        create_table(conn, create_friends_table)
+        c.commit()
+
+    else:
+        print("Error! cannot create the database connection.")
+
 # flask runs each function when at the site corresponding to route
 @app.route('/', methods=["POST", "GET"])
 def index():
