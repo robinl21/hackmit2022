@@ -89,6 +89,22 @@ def enter_info():
 
         print(c.fetchall())
         return "HI"
+
+@app.route('/removeinfo', methods=["POST", "GET"])
+def remove_info():
+    if request.method == "POST":
+        params = [request.form["code"], request.form["name"], request.form["latitude"], request.form["longitude"]]
+        for i in range(len(params)):
+            params[i] = '\'' + params[i] + '\''
+
+        sql_command = ', '.join(params) + ", \'SLAY\'"
+
+        query1 = "DELETE FROM friends WHERE code=" + params[0] + "AND name=" + params[1]
+        c.execute(query1)
+        conn.commit()
+
+        return "HI"
+
         
 
 # Given a code, return all items in the database with the same code value
@@ -99,10 +115,10 @@ def get_code_friends():
         for i in range(len(params)):
             params[i] = '\'' + params[i] + '\''
         code = params[0]
-        query1 = "SELECT code, name, longitude, latitude, avatar FROM friends WHERE code =" + "\'df\'"
+        query1 = "SELECT code, name, longitude, latitude, avatar FROM friends WHERE code =" + code
         print(query1)
         result = c.execute(query1) 
         result = result.fetchall()
         result = json.dumps(result)
-        print(result)
+
     return result

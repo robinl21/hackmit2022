@@ -16,14 +16,13 @@
 </head>
  
 <body>
-    <h1>Study Space: $tud 5 Bitchezzz</h1>
+    <h1>StudSpaces</h1>
     <h1> </h1>
-    <p> Hello, {{ name }}.</p>
+    <p> Hello, {{ name }}! Add yourself to the group map by clicking "Mark Yourself", and then click "Recenter and Update" to see your friends!</p>
     <div id="map" style="width:100%;height:600px;"> </div>
     <p id = "demo">Waiting for location...</p>
-    <p id = "temp"> Debugging... </p>
-    <div id="name_input" type="hidden">{{name}}</div>
-    <div id="code_input" type="hidden">{{code}}</div>
+    <div> Your name: </div><div id="name_input">{{name}}</div>
+    <div> Your session number: </div><div id="code_input">{{code}}</div>
     <script type="text/javascript" src="{{ url_for('static', filename='js/mapstyles.js')}}"></script>
     <script async = "false" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWk_UdE_K2CPBB6CsIfTEl3frqnfm1Ue4&callback=initMap"></script>
 
@@ -32,9 +31,8 @@
         var name = document.getElementById("name_input").innerText;
         var code_input = document.getElementById("code_input").innerText;
         var x = document.getElementById("demo");
-        var temp = document.getElementById("temp");
         var gmap;
-        var marker = 0;
+        var my_marker = 0;
         var latitude = -1000;
         var longitude = -1000;
         var loc = { lat: -1000, lng: -1000};
@@ -44,31 +42,13 @@
         var nickname = "Grace Li";
         var locName = "new vassar";
         var hasClicked = false;
-
-        function initMap(def_lat = -1000, def_long = -1000) {
-            zoomNum = 18;
-            if (def_lat == -1000 && def_long == -1000){
-                def_lat = 0;
-                def_long = 0;
-                zoomNum = 1;
-                gmap = new google.maps.Map(document.getElementById("map"), {
-                center: {lat: def_lat, lng: def_long},
-                    zoom: zoomNum,
-                    styles: custom_map_style });
-            }
-            else {
-                gmap.setZoom(zoomNum);
-                gmap.setCenter(loc)
-            }
-        }
+        var markers = [];
         
-        function retrieveAllPeople() {
-            var data = String('code=' + code_input)
-            $ajaxutils.sendPostRequestHandler("/getcodefriends", retrieveFriends, data)
-        }
+
+        //creates marker locally, sends marker to database
         function addMarker() {
             if (latitude == -1000 && longitude == -1000) {
-                temp.innerText = "no marker"
+
                 return;
             }
         
@@ -78,18 +58,18 @@
             };
             
         
-            if (marker == 0) { // no marker
-                // update location, add marker add information to database,
-                temp.innerText = "marked";
-                getLocation(); 
-
-                marker = new google.maps.Marker({
+            if (my_marker == 0) { // no marker
+                // get location, add marker to map + list, adds information to database,
+                getLocation(false);
+                
+                // adds new marker
+                my_marker = new google.maps.Marker({
                     position: loc,
                     map: gmap,
                     optimized: false,
                     icon: icon_image,
                 });
-
+                markers.push(my_marker) // adds to list
                 initTime = new Date();
 
                 const contentString =
@@ -107,31 +87,39 @@
                     map: map,
                 });
 
-                marker.addListener('mouseover', function() {
+                my_marker.addListener('mouseover', function() {
                     infowindow.open(map, this);
                 });
 
-                marker.addListener('click', function() {
+                my_marker.addListener('click', function() {
                     if (hasClicked) infowindow.close();
                     else infowindow.open(map, this);
                     hasClicked = !hasClicked
                 });
 
-                marker.addListener('mouseout', function() {
+                my_marker.addListener('mouseout', function() {
                     if (hasClicked) return;
                     infowindow.close();
                 });
 
                 document.getElementById("marky").innerText = "HIDE YOURSELF";
                 var data = String('name=' + name + '&code=' + code_input + '&latitude=' + latitude + '&longitude=' + longitude)
-
-                $ajaxutils.sendPostRequest("/enterinfo", data)
+                $ajaxutils.sendPostRequest("/enterinfo", data) //adds to database
             }
             else { // marker holds Marker object
-                //remove information from database
-                marker.setMap(null);
-                marker = 0;
+                //remove information from database, and from map
+                my_marker.setMap(null);
+                var index = markers.indexOf(my_marker)
+                console.log(index)
+                console.log("BEFORE")
+                console.log(markers)
+                markers.splice(my_marker, 1)
+                console.log(markers)
+                console.log("AFTER")
+                my_marker = 0; //reset my_marker global variable to show my marker doesn't exist
                 document.getElementById("marky").innerText = "FIND LOCATION AND MARK YOURSELF";
+                var data = String('name=' + name + '&code=' + code_input + '&latitude=' + latitude + '&longitude=' + longitude)
+                $ajaxutils.sendPostRequest("/removeinfo", data) //adds to database
             }
         }
 
@@ -140,9 +128,8 @@
             return (map !== null && typeof map !== "undefined");
         }
 
-        function getLocation() {
-            retrieveAllPeople()
-
+        
+        function getLocation(remove_markers) { //recenters, updates all markers based on database if remove_markers True
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(showPosition, showError)
                 initMap(latitude, longitude);
@@ -150,6 +137,93 @@
             else {
                 x.innerHTML = "Geolocation is not supported by this browser.";
             }
+            
+            if (remove_markers) {
+                retrieveAllPeople();
+            }
+
+        }
+
+        function initMap(def_lat = -1000, def_long = -1000) {
+            zoomNum = 18;
+            if (def_lat == -1000 && def_long == -1000){
+                def_lat = 0;
+                def_long = 0;
+                zoomNum = 1;
+                gmap = new google.maps.Map(document.getElementById("map"), {
+                center: {lat: def_lat, lng: def_long},
+                    zoom: zoomNum,
+                    styles: custom_map_style });
+            }
+            else {
+                gmap.setZoom(zoomNum);
+                gmap.setCenter(loc)
+            }
+            
+        }
+
+        function retrieveAllPeople() {
+            var data = String('code=' + code_input)
+            $ajaxutils.sendPostRequestHandler("/getcodefriends", retrieveFriends, data)
+        }
+
+        //callback: update all markers
+        function retrieveFriends(request) {
+            // with data from database, loads all users in div
+            var data = JSON.parse(request.response);
+            friends = data;
+            var friendsBlock = document.getElementById("friendbox");
+            var friendsOnline = [];
+            for (let i = 0; i < friends.length; i++) {
+                var other_name = friends[i][1];
+                friendsOnline.push(other_name)
+            }
+            var friendText = friendsOnline.join(', ');
+            friendsBlock.innerText= friendText;
+            console.log(friends);
+            console.log(typeof friends);
+            const icon_image = {
+                url: 'https://media.discordapp.net/attachments/711328926777081916/1025904567751286835/IMG_3961.png',
+                scaledSize: new google.maps.Size(50, 50),
+            };
+            
+            if (my_marker != 0) {} // marker equals 0, we aren't changing anything. if marker equals 1, 
+            //my_marker no longer points to the correct marker.
+            //removes all current markers
+            console.log(markers)
+            for ( let i = 0; i < markers.length; i++) {
+                console.log("removed marker");
+                markers[i].setMap(null);
+            }
+            markers = [];
+            
+            // adds new markers based on data
+            for (let i = 0; i < friends.length; i++) {
+                console.log(name)
+                console.log(friends[i][1])
+                
+                var current_loc = { lat: parseFloat(friends[i][2]), lng: parseFloat(friends[i][3])};
+                if (friends[i][1] == name) { // move my_marker pointer
+
+                    new_marker = new google.maps.Marker({
+                    position: current_loc,
+                    map: gmap,
+                    optimized: false,
+                    icon: icon_image,
+                    });
+                    markers.push(new_marker)
+                    my_marker = new_marker
+                    continue
+                }
+                new_marker = new google.maps.Marker({
+                    position: current_loc,
+                    map: gmap,
+                    optimized: false,
+                    icon: icon_image,
+                });
+                markers.push(new_marker)
+            }
+            
         }
 
         function showPosition(position) {
@@ -183,11 +257,12 @@
 
     </script>
     
-    <button onclick="getLocation()">RECENTER</button>
+    <button onclick="getLocation(true)">RECENTER AND UPDATE</button>
     <button id = "marky" onclick="addMarker()"> MARK YOURSELF </button>
-    <div id="friends">People On With You!</div>
+    <div>People On With You!</div>
+    <div id="friendbox"></div>
     <script>
-        getLocation();
+        getLocation(true);
     </script>
 </body>
  
