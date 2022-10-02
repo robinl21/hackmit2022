@@ -84,14 +84,13 @@
         function getLocation() {
 
             if (navigator.geolocation) {
-                document.getElementById("marky").disabled = true
                 navigator.geolocation.getCurrentPosition(showPosition, showError)
                 initMap(latitude, longitude);
             } 
             else {
                 x.innerHTML = "Geolocation is not supported by this browser.";
             }
-            document.getElementById("marky").disabled = false
+            
         }
 
         function showPosition(position) {
