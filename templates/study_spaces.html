@@ -16,15 +16,16 @@
     <p id = "demo">Waiting for location...</p>
     <p id = "temp"> Debugging... </p>
     <script type="text/javascript" src="{{ url_for('static', filename='js/mapstyles.js')}}"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWk_UdE_K2CPBB6CsIfTEl3frqnfm1Ue4&callback=initMap"></script>
+    <script async = "false" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWk_UdE_K2CPBB6CsIfTEl3frqnfm1Ue4&callback=initMap"></script>
 
     <script>
         var x = document.getElementById("demo");
         var temp = document.getElementById("temp");
-        var loc;
         var gmap;
         var marker = 0;
-        var latitude, longitude;
+        var latitude = -1000;
+        var longitude = -1000;
+        var loc = { lat: -1000, lng: -1000};
         var firstLoad = true;
 
         function loadCenter() {
@@ -45,17 +46,23 @@
                 def_lat = 0;
                 def_long = 0;
                 zoomNum = 1;
-            }
-
-            loc = { lat: def_lat, lng: def_long};
-            gmap = new google.maps.Map(document.getElementById("map"), {
-                center: loc,
+                gmap = new google.maps.Map(document.getElementById("map"), {
+                center: {lat: def_lat, lng: def_long},
                 zoom: zoomNum,
-                styles: custom_map_style
-            });
+                styles: custom_map_style });
+            }
+            else {
+                gmap.setZoom(zoomNum);
+                gmap.setCenter(loc)
+            }
         }
         
         function addMarker() {
+            if (latitude == -1000 && longitude == -1000) {
+                temp.innerText = "no marker"
+                return;
+            }
+
             const icon_image = {
                 url: 'https://media.discordapp.net/attachments/711328926777081916/1025904567751286835/IMG_3961.png',
                 scaledSize: new google.maps.Size(50, 50),
@@ -90,8 +97,10 @@
         function showPosition(position) {
             latitude = position.coords.latitude
             longitude = position.coords.longitude
-            x.innerHTML = "Latitude: " + position.coords.latitude + 
-            "<br>Longitude: " + position.coords.longitude; 
+            loc = { lat: latitude, lng: longitude};
+
+            x.innerHTML = "Latitude: " + latitude + 
+            "<br>Longitude: " + longitude; 
         }
 
         function showError(error) {
