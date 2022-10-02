@@ -6,7 +6,7 @@ import sqlite3
 
 app = Flask(__name__)
 
-conn = sqlite3.connect(':memory:')
+conn = sqlite3.connect('friends.db')
 
 c = conn.cursor()
 c.execute("""CREATE TABLE friends (
@@ -14,11 +14,10 @@ c.execute("""CREATE TABLE friends (
             name text,
             longitute real,
             latitute real,
-            markers interger
+            markers integer
             )""")
 
 conn.commit()
-conn.close()
 
 
 # flask runs each function when at the site corresponding to route
@@ -60,6 +59,8 @@ def inputname(code):
 @app.route('/studyspaces/<code>/<name>', methods=["POST", "GET"]) #pass in name/code
 def studyspace(code, name):
     #save code, name, location, into database
+    c.execute("INSERT INTO friends VALUES (code, name, 0, 0, 0)")
+    conn.commit()
     return render_template('study_spaces.html', code=code, name=name)
 
 
