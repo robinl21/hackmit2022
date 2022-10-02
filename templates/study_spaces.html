@@ -7,6 +7,11 @@
     <title>StudySpaces</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css')}}">
     <script type="text/javascript" src="{{ url_for('static', filename='js/ajax.js')}}"></script>
+    <style> img[src="https://media.discordapp.net/attachments/711328926777081916/1025904567751286835/IMG_3961.png"]{
+        border-radius: 50%;
+        border: 10% solid greenyellow !important;
+    }
+    </style>
 </head>
  
 <body>
@@ -42,8 +47,8 @@
                 zoomNum = 1;
                 gmap = new google.maps.Map(document.getElementById("map"), {
                 center: {lat: def_lat, lng: def_long},
-                zoom: zoomNum,
-                styles: custom_map_style });
+                    zoom: zoomNum,
+                    styles: custom_map_style });
             }
             else {
                 gmap.setZoom(zoomNum);
@@ -60,7 +65,7 @@
                 temp.innerText = "no marker"
                 return;
             }
-
+        
             const icon_image = {
                 url: 'https://media.discordapp.net/attachments/711328926777081916/1025904567751286835/IMG_3961.png',
                 scaledSize: new google.maps.Size(50, 50),
@@ -75,10 +80,10 @@
                 marker = new google.maps.Marker({
                     position: loc,
                     map: gmap,
-                    icon : icon_image,
+                    title: "myMarker",
+                    optimized: false,
+                    icon: icon_image,
                 });
-                
-                
                 document.getElementById("marky").innerText = "HIDE YOURSELF";
                 var data = String('name=' + name + '&code=' + code_input + '&latitude=' + latitude + '&longitude=' + longitude)
 
@@ -102,7 +107,6 @@
             else {
                 x.innerHTML = "Geolocation is not supported by this browser.";
             }
-            
         }
 
         function showPosition(position) {
