@@ -16,6 +16,7 @@
     <p id = "demo">Waiting for location...</p>
     <p id = "temp"> Debugging... </p>
     <script type="text/javascript" src="{{ url_for('static', filename='js/mapstyles.js')}}"></script>
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWk_UdE_K2CPBB6CsIfTEl3frqnfm1Ue4&callback=initMap&v=weekly"></script>
 
     <script>
         var x = document.getElementById("demo");
@@ -115,10 +116,6 @@
 
         getLocation();
     </script>
-    
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWk_UdE_K2CPBB6CsIfTEl3frqnfm1Ue4&callback=initMap&v=weekly"
-    ></script>
     
     <button onclick="loadCenter()">Center the Map</button>
     <button id = "marky" onclick="addMarker()"> MARK YOURSELF </button>
