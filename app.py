@@ -73,11 +73,12 @@ def enter_info():
     if request.method == "POST":
         print(request.form)
         params = [request.form["code"], request.form["name"], request.form["latitude"], request.form["longitude"]]
-        sql_command = ', '.join(params)
+        sql_command = ', \''.join(params)
+
         c.execute("PRAGMA table_info(friends)")
         items = c.fetchall()
         print(items)
-        query1 = "INSERT INTO friends (code, name, longitude, latitude) VALUES(" + sql_command + ")"
+        query1 = "INSERT INTO friends (code, name, longitude, latitude, avatar) VALUES(" + sql_command + ")"
         c.execute(query1)
         conn.commit()
         
