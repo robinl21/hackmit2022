@@ -3,6 +3,7 @@ import random
 import string
 from datetime import datetime
 import sqlite3
+import json
 
 app = Flask(__name__)
 
@@ -93,7 +94,15 @@ def enter_info():
 # Given a code, return all items in the database with the same code value
 @app.route('/getcodefriends', methods=["POST", "GET"])
 def get_code_friends():
-    if request.method == "GET":
-        print(request.form["code"])
-
-    return "HI"
+    if request.method == "POST":
+        params = [request.form["code"]]
+        for i in range(len(params)):
+            params[i] = '\'' + params[i] + '\''
+        code = params[0]
+        query1 = "SELECT code, name, longitude, latitude, avatar FROM friends WHERE code =" + "\'df\'"
+        print(query1)
+        result = c.execute(query1) 
+        result = result.fetchall()
+        result = json.dumps(result)
+        print(result)
+    return result

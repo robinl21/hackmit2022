@@ -7,6 +7,7 @@
     <title>StudySpaces</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css')}}">
     <script type="text/javascript" src="{{ url_for('static', filename='js/ajax.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/findloc.js')}}"></script>
     <style> img[src="https://media.discordapp.net/attachments/711328926777081916/1025904567751286835/IMG_3961.png"]{
         border-radius: 50%;
         border: 10% solid greenyellow !important;
@@ -27,6 +28,7 @@
     <script async = "false" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWk_UdE_K2CPBB6CsIfTEl3frqnfm1Ue4&callback=initMap"></script>
 
     <script>
+        var friends
         var name = document.getElementById("name_input").innerText;
         var code_input = document.getElementById("code_input").innerText;
         var x = document.getElementById("demo");
@@ -57,8 +59,8 @@
         }
         
         function retrieveAllPeople() {
-            var param = "code=" + code_input
-            $ajaxutils.sendGetRequest("/getcodefriends", retrieveFriends, param)
+            var data = String('code=' + code_input)
+            $ajaxutils.sendPostRequestHandler("/getcodefriends", retrieveFriends, data)
         }
         function addMarker() {
             if (latitude == -1000 && longitude == -1000) {
@@ -142,7 +144,7 @@
     
     <button onclick="getLocation()">RECENTER</button>
     <button id = "marky" onclick="addMarker()"> MARK YOURSELF </button>
-    <div id="friends"></div>
+    <div id="friends">People On With You!</div>
     <script>
         getLocation();
     </script>

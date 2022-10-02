@@ -1,5 +1,8 @@
 function retrieveFriends(request) {
     // with data from database, loads all users in div
+    friends = data
     var data = request.response
-    document.getElementById("friends").setInnerText(data)
+    console.log(data)
+    var friendsBlock = document.getElementById("friends")
+    friendsBlock.innerText=data
 }

@@ -20,7 +20,6 @@
         request.onload = function () {
             handleResponse(request, responseHandler);
         }
-        print(params)
         requestUrl += requestUrl + "?" + params //params of form variable1=value2
         request.open("GET", requestUrl, true);
         request.send(null); 
@@ -41,6 +40,18 @@
         request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         request.send(params);
     }
+    
+    ajaxutils.sendPostRequestHandler = function(requestUrl, responseHandler, params) {
+        var request = getRequestObject();
+        request.onload = function () {
+            handleResponse(request, responseHandler);
+        }
+        request.open('POST', requestUrl, true);
+        request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        request.send(params);
+    }
+
+
 
     global.$ajaxutils = ajaxutils
 })(window);
