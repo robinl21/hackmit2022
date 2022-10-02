@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>StudySpaces</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css')}}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/ajax.js')}}"></script>
 </head>
  
 <body>
@@ -15,11 +16,14 @@
     <div id="map" style="width:100%;height:600px;"> </div>
     <p id = "demo">Waiting for location...</p>
     <p id = "temp"> Debugging... </p>
-
+    <div id="name_input" type="hidden">{{name}}</div>
+    <div id="code_input" type="hidden">{{code}}</div>
     <script type="text/javascript" src="{{ url_for('static', filename='js/mapstyles.js')}}"></script>
     <script async = "false" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWk_UdE_K2CPBB6CsIfTEl3frqnfm1Ue4&callback=initMap"></script>
 
     <script>
+        var name = document.getElementById("name_input").innerText;
+        var code_input = document.getElementById("code_input").innerText;
         var x = document.getElementById("demo");
         var temp = document.getElementById("temp");
         var gmap;
@@ -72,6 +76,9 @@
                 
                 
                 document.getElementById("marky").innerText = "HIDE YOURSELF";
+                var data = String('name=' + name + 'code=' + code_input + 'latitude=' + latitude + 'longitude=' + longitude)
+
+                $ajaxutils.sendPostRequest("/", data)
             }
             else { // marker holds Marker object
                 //remove information from database

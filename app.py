@@ -94,5 +94,11 @@ def inputname(code):
 @app.route('/studyspaces/<code>/<name>', methods=["POST", "GET"]) #pass in name/code
 def studyspace(code, name):
     #save code, name, location, into database
-    c.execute("INSERT INTO friends VALUES (code, name, 0, 0, 0)")
+
     return render_template('study_spaces.html', code=code, name=name)
+
+
+@app.route('/process', methods=['POST'])
+def process_info():
+    if request.method == 'POST':
+        print(request.form)
