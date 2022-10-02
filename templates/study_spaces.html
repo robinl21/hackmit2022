@@ -10,19 +10,19 @@
  
 <body>
     <h1>Study Space: $tud 5 Bitchezzz</h1>
-    <div id="map" style="width:100%;height:400px;"> </div>
+    <h1> </h1>
+    <p> Hello, {{ name }}.</p>
+    <div id="map" style="width:100%;height:600px;"> </div>
     <p id = "demo">Waiting for location...</p>
+    <p id = "temp"> Debugging... </p>
     <script type="text/javascript" src="{{ url_for('static', filename='js/mapstyles.js')}}"></script>
-    <script type="text/javascript" src = "{{ url_for('static', filename='js/findloc.js')}}"> </script>
 
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWk_UdE_K2CPBB6CsIfTEl3frqnfm1Ue4&callback=initMap&v=weekly"
-    ></script>
     <script>
         var x = document.getElementById("demo");
+        var temp = document.getElementById("temp");
         var loc;
         var gmap;
-        var marker;
+        var marker = 0;
         var latitude, longitude;
         var firstLoad = true;
 
@@ -39,8 +39,7 @@
         }
 
         function initMap(def_lat = -1000, def_long = -1000) {
-            x.innerText = "FALSE";
-            zoomNum = 16;
+            zoomNum = 18;
             if (def_lat == -1000 && def_long == -1000){
                 def_lat = 0;
                 def_long = 0;
@@ -54,18 +53,15 @@
                 styles: custom_map_style
             });
         }
-
-        getLocation();
-        initMap();
         
         function addMarker() {
-
             const icon_image = {
-                url: 'https://web.mit.edu/graphicidentity/images/examples/tim-the-beaver-do-1.png',
-                scaledSize: new google.maps.Size(80, 80),
+                url: 'https://media.discordapp.net/attachments/711328926777081916/1025904567751286835/IMG_3961.png',
+                scaledSize: new google.maps.Size(60, 60),
             };
             
             if (marker == 0) {
+                temp.innerText = "marked";
                 marker = new google.maps.Marker({
                     position: loc,
                     map: gmap,
@@ -79,7 +75,50 @@
                 document.getElementById("marky").innerText = "MARK YOURSELF";
             }
         }
+
+        async function getLocation() {
+            if (navigator.geolocation) {
+                await navigator.geolocation.getCurrentPosition(showPosition, showError)
+                initMap(latitude, longitude);
+            } 
+            else {
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        async function showPosition(position) {
+            latitude = position.coords.latitude
+            longitude = position.coords.longitude
+            x.innerHTML = "Latitude: " + position.coords.latitude + 
+            "<br>Longitude: " + position.coords.longitude; 
+        }
+
+        async function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    x.innerHTML = "User denied the request for Geolocation"
+                    break;
+
+                case error.POSITION_UNAVAILABLE:
+                    x.innerHTML = "Location information is unavailable."
+                    break;
+
+                case error.TIMEOUT:
+                    x.innerHTML = "The request to get user location timed out."
+                    break;
+
+                case error.UNKNOWN_ERROR:
+                    x.innerHTML = "An unknown error occurred."
+                    break;
+            }
+        }
+
+        getLocation();
     </script>
+    
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWk_UdE_K2CPBB6CsIfTEl3frqnfm1Ue4&callback=initMap&v=weekly"
+    ></script>
     
     <button onclick="loadCenter()">Center the Map</button>
     <button id = "marky" onclick="addMarker()"> MARK YOURSELF </button>
